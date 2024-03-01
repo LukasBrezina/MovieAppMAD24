@@ -25,7 +25,7 @@ fun getNavigationItems(): List<BottomNavigationItem> {
             unselectedIcon = Icons.Outlined.Home
         ),
         BottomNavigationItem(
-            title = "Wishlist",
+            title = "Watchlist",
             selectedIcon = Icons.Filled.Star,
             unselectedIcon = Icons.Outlined.Star
         ),
