@@ -22,7 +22,8 @@ fun getNavigationItems(): List<BottomNavigationItem> {
         BottomNavigationItem(
             title = "Home",
             selectedIcon = Icons.Filled.Home,
-            unselectedIcon = Icons.Outlined.Home
+            unselectedIcon = Icons.Outlined.Home,
+            count= getMovies().size
         ),
         BottomNavigationItem(
             title = "Watchlist",
