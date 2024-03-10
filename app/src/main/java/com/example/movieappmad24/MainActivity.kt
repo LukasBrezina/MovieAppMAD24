@@ -47,58 +47,60 @@ import androidx.compose.ui.unit.sp
 import com.example.movieappmad24.ui.theme.MovieAppMAD24Theme
 
 class MainActivity : ComponentActivity() {
-    @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
-    @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             MovieAppMAD24Theme {
-                val navItems = getNavigationItems()
-                var selectedItemIndex by rememberSaveable {
-                    mutableStateOf(0)
-                }
-                Scaffold(
-                    topBar = {
-                        TopAppBar(title = {Text(text="Lukas's Movie APP")})
-                    },
-                    bottomBar = {
-                        NavigationBar() {
-                            navItems.forEachIndexed{index, item ->
-                                NavigationBarItem(
-                                    selected = selectedItemIndex == index,
-                                    onClick = { selectedItemIndex = index },
-                                    label = {
-                                        Text(text = item.title)
-                                    },
-                                    icon = {
-                                        BadgedBox(
-                                            badge = {
-                                                if (item.count != null) {
-                                                    Badge {
-                                                        Text(text = item.count.toString())
-                                                    }
-                                                }
-                                            }
-                                        ) {
-                                            Icon(
-                                                imageVector = if (index == selectedItemIndex) item.selectedIcon
-                                                else item.unselectedIcon,
-                                                contentDescription = item.title
-                                            )
-                                        }
-                                    })
-                            }
-                        }
-                    }
-                ) { paddingValues -> MovieList(movieList=getMovies(), paddingValues)}
+                    LoadApplication()
                 }
             }
         }
     }
+    @OptIn(ExperimentalMaterial3Api::class)
+    @Composable
+    fun LoadApplication(navigationItems: List<BottomNavigationItem> = getNavigationItems()) {
+        var selectedItemIndex by rememberSaveable {
+            mutableStateOf(0)
+        }
+        Scaffold(
+            topBar = {
+                TopAppBar(title= {Text(text= "Lukas's Movie APP" ) } )
+            },
+            bottomBar = {
+                NavigationBar {
+                    navigationItems.forEachIndexed{ index, item ->
+                        NavigationBarItem(
+                            selected = selectedItemIndex == index,
+                            onClick = { selectedItemIndex = index },
+                            label = {
+                                Text(text = item.title)
+                            },
+                            icon = {
+                                BadgedBox(
+                                    badge = {
+                                        if (item.count != null) {
+                                            Badge {
+                                                Text(text = item.count.toString())
+                                            }
+                                        }
+                                    }
+                                ) {
+                                    Icon(
+                                        imageVector = if (index == selectedItemIndex) item.selectedIcon
+                                        else item.unselectedIcon,
+                                        contentDescription = item.title
+                                    )
+                                }
+                            })
+                    }
+                }
+            }
+        ) { paddingValues -> MovieList(movieList = getMovies(), paddingValues)}
+    }
 
     @SuppressLint("UnrememberedMutableState")
     @Composable
-    fun MovieRow(movie:Movie) {
+    fun MovieRow(movie: Movie) {
         Card(
             shape = RoundedCornerShape(size=25.dp)
         ) {
@@ -123,6 +125,7 @@ class MainActivity : ComponentActivity() {
             ) {
 
             Text(text = movie.title, modifier = Modifier.padding(start=12.dp), fontSize = 22.sp)
+
             IconButton(onClick = { arrow = !arrow }) {
                 Icon(
                     imageVector = if (arrow) Icons.Default.KeyboardArrowUp else Icons.Default.KeyboardArrowDown,
