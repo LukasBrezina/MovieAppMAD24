@@ -18,30 +18,21 @@ import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.example.movieappmad24.Movie
 import com.example.movieappmad24.getMovieById
+import com.example.movieappmad24.reuseableFunctions.CreateTopAppBar
+import com.example.movieappmad24.reuseableFunctions.MovieRow
 
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DetailScreen(movieId: String?, navController: NavController) {
     val movie: Movie? = getMovieById(movieId)
     Scaffold(
         topBar = {
-            TopAppBar(
-                title = { Text(text=movie!!.title) },
-                navigationIcon = {
-                    IconButton(onClick = { navController.navigate("homescreen") }) {
-                        Icon(imageVector = Icons.Filled.ArrowBack,
-                            contentDescription = "ArrowBack" )
-                    }
-                }
-                )
+            CreateTopAppBar(movie = movie, navController = navController)
         }
     ) { padding ->
         Column(modifier = Modifier.padding(padding)) {
-            MovieRow(movie!!, onItemClick = {
-
-            })
-            LazyRow() {
+            MovieRow(movie!!, onItemClick = {})
+            LazyRow {
                 items(movie.images) {image ->
                     AsyncImage(model = image, contentDescription = null)
                 }

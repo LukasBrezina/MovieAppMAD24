@@ -1,4 +1,4 @@
-package com.example.movieappmad24
+package com.example.movieappmad24.navigation
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
@@ -6,6 +6,8 @@ import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.Star
 import androidx.compose.ui.graphics.vector.ImageVector
+import com.example.movieappmad24.getMovies
+import com.example.movieappmad24.getWatchListMovies
 
 
 // tutorial: youtube.com/watch?v=c8XP_Ee7iqY
@@ -14,7 +16,8 @@ data class BottomNavigationItem(
     val title: String,
     val selectedIcon: ImageVector,
     val unselectedIcon: ImageVector,
-    val count: Int? = null
+    val count: Int? = null,
+    val route: String
 )
 
 fun getNavigationItems(): List<BottomNavigationItem> {
@@ -23,12 +26,16 @@ fun getNavigationItems(): List<BottomNavigationItem> {
             title = "Home",
             selectedIcon = Icons.Filled.Home,
             unselectedIcon = Icons.Outlined.Home,
-            count= getMovies().size
+            count= getMovies().size,
+            route = Screen.HomeScreen.route
+
         ),
         BottomNavigationItem(
             title = "Watchlist",
             selectedIcon = Icons.Filled.Star,
-            unselectedIcon = Icons.Outlined.Star
+            unselectedIcon = Icons.Outlined.Star,
+            count = getWatchListMovies().size,
+            route = Screen.WatchListScreen.route
         ),
     )
 }
