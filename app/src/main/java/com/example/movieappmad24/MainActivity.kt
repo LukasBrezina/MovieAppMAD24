@@ -44,6 +44,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.movieappmad24.navigation.Navigation
+import com.example.movieappmad24.screens.DetailScreen
+import com.example.movieappmad24.screens.HomeScreen
 import com.example.movieappmad24.ui.theme.MovieAppMAD24Theme
 
 class MainActivity : ComponentActivity() {
@@ -51,11 +54,12 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             MovieAppMAD24Theme {
-                    LoadApplication()
+                    Navigation()
                 }
             }
         }
     }
+    /*
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     fun LoadApplication(navigationItems: List<BottomNavigationItem> = getNavigationItems()) {
@@ -96,7 +100,8 @@ class MainActivity : ComponentActivity() {
                 }
             }
         ) { paddingValues -> MovieList(movieList = getMovies(), paddingValues)}
-    }
+    } 
+    
 
     @SuppressLint("UnrememberedMutableState")
     @Composable
@@ -159,4 +164,5 @@ class MainActivity : ComponentActivity() {
                     movie -> MovieRow(movie)
             }
         }
-    }
+    } 
+    */
