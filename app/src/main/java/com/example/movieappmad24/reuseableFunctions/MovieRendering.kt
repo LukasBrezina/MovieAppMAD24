@@ -35,7 +35,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
-import com.example.movieappmad24.Movie
+import com.example.movieappmad24.models.Movie
 import com.example.movieappmad24.navigation.Screen
 
 

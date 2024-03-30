@@ -1,6 +1,5 @@
 package com.example.movieappmad24.reuseableFunctions
 
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Badge
@@ -13,20 +12,13 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
-import androidx.navigation.compose.currentBackStackEntryAsState
-import com.example.movieappmad24.Movie
+import com.example.movieappmad24.models.Movie
 import com.example.movieappmad24.navigation.getNavigationItems
-import com.example.movieappmad24.navigation.Screen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CreateTopAppBar(movie: Movie? = null, navController: NavController, text: String? = null) {
+fun SimpleTopAppBar(movie: Movie? = null, navController: NavController, text: String? = null) {
     if (movie != null) {
         TopAppBar(
             title = { Text(text= movie.title)},
@@ -44,42 +36,33 @@ fun CreateTopAppBar(movie: Movie? = null, navController: NavController, text: St
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CreateBottomAppBar(navController: NavController) {
-    var selectedItemIndex by rememberSaveable {
-        mutableStateOf(0)
-    }
-    val currentBackStackEntry = navController.currentBackStackEntryAsState().value
-    val currentDestination = currentBackStackEntry?.destination?.route
+fun SimpleBottomAppBar(navController: NavController, route: String) {
 
     NavigationBar {
-        getNavigationItems().forEachIndexed { index, item ->
+        getNavigationItems().forEach { navItem ->
             NavigationBarItem(
-                selected = selectedItemIndex == index,
+                selected = navItem.route == route,
                 onClick = {
-                            if (currentDestination == Screen.HomeScreen.route && item.title == "Watchlist") {
-                                navController.navigate(Screen.WatchListScreen.route)
-                            } else if (currentDestination == Screen.WatchListScreen.route && item.title == "Home") {
-                                navController.popBackStack()
+                            navController.navigate(navItem.route) {
+                                popUpTo(id = 0)
                             }
-                            selectedItemIndex = index
                           },
                 label = {
-                    Text(text = item.title)
+                    Text(text = navItem.title)
                 },
                 icon = {
                     BadgedBox(
                         badge = {
-                            if (item.count != null) {
+                            if (navItem.count != null) {
                                 Badge {
-                                    Text(text = item.count.toString())
+                                    Text(text = navItem.count.toString())
                                 }
                             }
                         }
                     ) {
                         Icon(
-                            imageVector = if (index == selectedItemIndex) item.selectedIcon
-                            else item.unselectedIcon,
-                            contentDescription = item.title
+                            imageVector = if (navItem.route == route) navItem.selectedIcon else navItem.unselectedIcon,
+                            contentDescription = navItem.title
                         )
                     }
                 })

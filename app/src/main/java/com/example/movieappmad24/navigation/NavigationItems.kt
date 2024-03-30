@@ -6,8 +6,8 @@ import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.Star
 import androidx.compose.ui.graphics.vector.ImageVector
-import com.example.movieappmad24.getMovies
-import com.example.movieappmad24.getWatchListMovies
+import com.example.movieappmad24.models.getMovies
+import com.example.movieappmad24.models.getWatchListMovies
 
 
 // tutorial: youtube.com/watch?v=c8XP_Ee7iqY

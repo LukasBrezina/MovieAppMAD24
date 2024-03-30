@@ -1,4 +1,4 @@
-package com.example.movieappmad24
+package com.example.movieappmad24.models
 
 data class Movie(
     val id: String,

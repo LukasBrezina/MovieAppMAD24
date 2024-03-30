@@ -4,8 +4,6 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-
-
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.movieappmad24.screens.DetailScreen
@@ -19,7 +17,7 @@ fun Navigation() {
         startDestination = Screen.HomeScreen.route) {
 
         composable(route = Screen.HomeScreen.route) {
-            HomeScreen(navController)
+            HomeScreen(navController, Screen.HomeScreen.route)
         }
 
         composable(
@@ -31,7 +29,7 @@ fun Navigation() {
         }
 
         composable(route = Screen.WatchListScreen.route) {
-            WatchlistScreen(navController)
+            WatchlistScreen(navController, Screen.WatchListScreen.route)
         }
     }
 }
