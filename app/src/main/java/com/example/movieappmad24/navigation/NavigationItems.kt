@@ -7,7 +7,6 @@ import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.Star
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.example.movieappmad24.models.getMovies
-import com.example.movieappmad24.models.getWatchListMovies
 
 
 // tutorial: youtube.com/watch?v=c8XP_Ee7iqY
@@ -34,7 +33,7 @@ fun getNavigationItems(): List<BottomNavigationItem> {
             title = "Watchlist",
             selectedIcon = Icons.Filled.Star,
             unselectedIcon = Icons.Outlined.Star,
-            count = getWatchListMovies().size,
+            //count = getWatchListMovies().size,
             route = Screen.WatchListScreen.route
         ),
     )

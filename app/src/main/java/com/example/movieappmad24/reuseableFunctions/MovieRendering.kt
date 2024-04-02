@@ -15,9 +15,11 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
+import androidx.compose.material.icons.outlined.Favorite
 import androidx.compose.material3.Card
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
@@ -36,19 +38,19 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.example.movieappmad24.models.Movie
+import com.example.movieappmad24.models.MoviesViewModel
 import com.example.movieappmad24.navigation.Screen
-
 
 @SuppressLint("UnrememberedMutableState")
 @Composable
-fun MovieRow(movie: Movie, onItemClick: (String) -> Unit) {
+fun MovieRow(movie: Movie, moviesViewModel: MoviesViewModel, onMovieRowClick: (String) -> Unit, onFavClick: (String) -> Unit) {
     Card(
         shape = RoundedCornerShape(size=25.dp),
         modifier = Modifier
             .fillMaxWidth()
             .padding(5.dp)
             .clickable {
-                onItemClick(movie.id)
+                onMovieRowClick(movie.id)
             }
     ) {
         Box {
@@ -56,10 +58,10 @@ fun MovieRow(movie: Movie, onItemClick: (String) -> Unit) {
                 model = movie.images[0],
                 contentDescription = null,
             )
-            IconButton(onClick = {}, modifier = Modifier.align(Alignment.TopEnd)) {
+            IconButton(onClick = {onFavClick(movie.id)}, modifier = Modifier.align(Alignment.TopEnd)) {
                 Icon(
-                    imageVector = Icons.Default.FavoriteBorder,
-                    contentDescription = "Up Arrow",
+                    imageVector = if (movie in moviesViewModel.favouriteList) Icons.Filled.Favorite else Icons.Outlined.Favorite,
+                    contentDescription = "Heart",
                 )
             }
         }
@@ -93,7 +95,7 @@ fun MovieRow(movie: Movie, onItemClick: (String) -> Unit) {
     }
 }
 @Composable
-fun MovieList(movieList: List<Movie>, paddingValues: PaddingValues, navController: NavController) {
+fun MovieList(movieList: List<Movie>, moviesViewModel: MoviesViewModel, paddingValues: PaddingValues, navController: NavController) {
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
@@ -102,10 +104,10 @@ fun MovieList(movieList: List<Movie>, paddingValues: PaddingValues, navControlle
                 top = paddingValues.calculateTopPadding()
             )
     ) {
-        items(movieList) {
-                movie -> MovieRow(movie, onItemClick = {
+        items(moviesViewModel.movieList) {
+                movie -> MovieRow(movie, moviesViewModel, onMovieRowClick = {
             navController.navigate(Screen.DetailScreen.route+"/${movie.id}")
-        })
+        }, onFavClick = {moviesViewModel.toggleFavourite(movie.id)})
         }
     }
 }
