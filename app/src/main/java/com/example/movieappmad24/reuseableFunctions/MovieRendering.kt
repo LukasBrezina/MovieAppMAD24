@@ -39,11 +39,12 @@ import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.example.movieappmad24.models.Movie
 import com.example.movieappmad24.models.MoviesViewModel
+import com.example.movieappmad24.models.getMovieById
 import com.example.movieappmad24.navigation.Screen
 
 @SuppressLint("UnrememberedMutableState")
 @Composable
-fun MovieRow(movie: Movie, moviesViewModel: MoviesViewModel, onMovieRowClick: (String) -> Unit, onFavClick: (String) -> Unit) {
+fun MovieRow(movie: Movie, onMovieRowClick: (String) -> Unit, onFavClick: () -> Unit) {
     Card(
         shape = RoundedCornerShape(size=25.dp),
         modifier = Modifier
@@ -58,9 +59,10 @@ fun MovieRow(movie: Movie, moviesViewModel: MoviesViewModel, onMovieRowClick: (S
                 model = movie.images[0],
                 contentDescription = null,
             )
-            IconButton(onClick = {onFavClick(movie.id)}, modifier = Modifier.align(Alignment.TopEnd)) {
+            IconButton(onClick = {onFavClick()}, modifier = Modifier.align(Alignment.TopEnd)) {
                 Icon(
-                    imageVector = if (movie in moviesViewModel.favouriteList) Icons.Filled.Favorite else Icons.Outlined.Favorite,
+                    tint = Color.Red,
+                    imageVector = if (movie.isFavourite) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
                     contentDescription = "Heart",
                 )
             }
@@ -104,10 +106,12 @@ fun MovieList(movieList: List<Movie>, moviesViewModel: MoviesViewModel, paddingV
                 top = paddingValues.calculateTopPadding()
             )
     ) {
-        items(moviesViewModel.movieList) {
-                movie -> MovieRow(movie, moviesViewModel, onMovieRowClick = {
+        items(movieList) {
+                movie -> MovieRow(movie, onMovieRowClick = {
             navController.navigate(Screen.DetailScreen.route+"/${movie.id}")
-        }, onFavClick = {moviesViewModel.toggleFavourite(movie.id)})
+        }, onFavClick = {
+            moviesViewModel.toggleFavourite(movie)
+        })
         }
     }
 }

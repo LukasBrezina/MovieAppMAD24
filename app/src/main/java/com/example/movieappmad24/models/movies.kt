@@ -169,15 +169,3 @@ fun getMovieById(movieId: String?): Movie? {
     }
     return null
 }
-
-
-/* fun getWatchListMovies(): MutableList<Movie> {
-    val watchlistMovies = mutableListOf<Movie>()
-    getMovies().forEachIndexed{ index, movie ->
-        if (index % 2 == 0) {
-            watchlistMovies.add(movie)
-        }
-    }
-    return watchlistMovies
-}
-*/

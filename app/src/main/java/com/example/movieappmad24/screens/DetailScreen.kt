@@ -1,7 +1,6 @@
 package com.example.movieappmad24.screens
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -37,7 +36,7 @@ fun DetailScreen(movieId: String?, moviesViewModel: MoviesViewModel, navControll
         }
     ) { padding ->
         Column(modifier = Modifier.padding(padding)) {
-            MovieRow(movie!!, moviesViewModel, onMovieRowClick = {}, onFavClick = {})
+            MovieRow(movie!!, onMovieRowClick = {}, onFavClick = {})
             ExoplayerTrailer(movie.trailer)
             LazyRow {
                 items(movie.images) {image ->

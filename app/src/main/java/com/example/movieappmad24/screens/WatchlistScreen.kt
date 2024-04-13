@@ -15,7 +15,7 @@ fun WatchlistScreen(navController: NavController, moviesViewModel: MoviesViewMod
             SimpleTopAppBar(navController = navController, text = "Watchlist") },
         bottomBar = {
             SimpleBottomAppBar(navController, route) }
-    ) { paddingValues -> MovieList(movieList = moviesViewModel.favouriteList, moviesViewModel,
+    ) { paddingValues -> MovieList(movieList = moviesViewModel.favouriteMovieList, moviesViewModel,
                                     paddingValues = paddingValues,
                                     navController = navController )
     }
