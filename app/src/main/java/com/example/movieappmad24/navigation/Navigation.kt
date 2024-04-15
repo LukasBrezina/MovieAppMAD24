@@ -8,6 +8,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.movieappmad24.models.MoviesViewModel
+import com.example.movieappmad24.models.getMovieById
 import com.example.movieappmad24.screens.DetailScreen
 import com.example.movieappmad24.screens.HomeScreen
 import com.example.movieappmad24.screens.WatchlistScreen
@@ -29,7 +30,7 @@ fun Navigation() {
             arguments = listOf(navArgument(name="movieId") {type = NavType.StringType})
         ) {
             backStackEntry ->
-            DetailScreen(movieId = backStackEntry.arguments?.getString("movieId"), moviesViewModel, navController)
+            DetailScreen(movie = getMovieById(backStackEntry.arguments?.getString("movieId"), moviesViewModel), moviesViewModel, navController)
         }
 
         composable(route = Screen.WatchListScreen.route) {

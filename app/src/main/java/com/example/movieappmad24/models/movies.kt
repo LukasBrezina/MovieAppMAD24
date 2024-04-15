@@ -159,13 +159,11 @@ fun getMovies(): List<Movie> {
         )
 }
 
-fun getMovieById(movieId: String?): Movie? {
-    val movies = getMovies()
-
-    movies.forEach { movie ->
+fun getMovieById(movieId: String?, moviesViewModel: MoviesViewModel): Movie {
+    moviesViewModel.movieList.forEach { movie ->
         if (movie.id == movieId) {
             return movie
         }
     }
-    return null
+    return moviesViewModel.movieList[0]
 }

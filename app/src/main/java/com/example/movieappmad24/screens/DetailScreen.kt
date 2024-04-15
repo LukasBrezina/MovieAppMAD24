@@ -28,15 +28,14 @@ import com.example.movieappmad24.reuseableFunctions.MovieRow
 
 
 @Composable
-fun DetailScreen(movieId: String?, moviesViewModel: MoviesViewModel, navController: NavController) {
-    val movie: Movie? = getMovieById(movieId)
+fun DetailScreen(movie: Movie, moviesViewModel: MoviesViewModel, navController: NavController) {
     Scaffold(
         topBar = {
             SimpleTopAppBar(movie = movie, navController = navController)
         }
     ) { padding ->
         Column(modifier = Modifier.padding(padding)) {
-            MovieRow(movie!!, onMovieRowClick = {}, onFavClick = {})
+            MovieRow(movie, onMovieRowClick = {}, onFavClick = { moviesViewModel.toggleFavourite(movie)})
             ExoplayerTrailer(movie.trailer)
             LazyRow {
                 items(movie.images) {image ->

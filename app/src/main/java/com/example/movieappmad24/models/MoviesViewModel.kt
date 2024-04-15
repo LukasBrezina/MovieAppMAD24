@@ -14,10 +14,9 @@ class MoviesViewModel: ViewModel() {
 
     fun toggleFavourite(movie: Movie) {
         movie.isFavourite = !movie.isFavourite
-        when(movie.isFavourite) {
+        when ( movie.isFavourite ) {
             true -> _favouriteMovieList.add(movie)
             false -> _favouriteMovieList.remove(movie)
         }
-
     }
 }
