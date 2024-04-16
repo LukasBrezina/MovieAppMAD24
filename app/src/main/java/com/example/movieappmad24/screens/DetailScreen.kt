@@ -22,7 +22,6 @@ import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.example.movieappmad24.models.Movie
 import com.example.movieappmad24.models.MoviesViewModel
-import com.example.movieappmad24.models.getMovieById
 import com.example.movieappmad24.reuseableFunctions.SimpleTopAppBar
 import com.example.movieappmad24.reuseableFunctions.MovieRow
 
@@ -35,7 +34,7 @@ fun DetailScreen(movie: Movie, moviesViewModel: MoviesViewModel, navController: 
         }
     ) { padding ->
         Column(modifier = Modifier.padding(padding)) {
-            MovieRow(movie, onMovieRowClick = {}, onFavClick = { moviesViewModel.toggleFavourite(movie)})
+            MovieRow(movie, onMovieRowClick = {}, onFavClick = { moviesViewModel.toggleFavourite(movie) })
             ExoplayerTrailer(movie.trailer)
             LazyRow {
                 items(movie.images) {image ->
@@ -50,22 +49,19 @@ fun DetailScreen(movie: Movie, moviesViewModel: MoviesViewModel, navController: 
 fun ExoplayerTrailer(uri: String) {
     val context = LocalContext.current
     val exoPlayer = ExoPlayer.Builder(context).build()
-    var videoURI = "android.resource://" + context.getPackageName() + "/${context.resources.getIdentifier(uri, "raw", context.packageName)}"
+    val videoURI = "android.resource://" + context.getPackageName() + "/${context.resources.getIdentifier(uri, "raw", context.packageName)}"
     val mediaSource = remember(videoURI) {
         MediaItem.fromUri(videoURI)
     }
-
     LaunchedEffect(mediaSource) {
         exoPlayer.setMediaItem(mediaSource)
         exoPlayer.prepare()
     }
-
     DisposableEffect(Unit) {
         onDispose {
             exoPlayer.release()
         }
     }
-
     AndroidView(
         factory = {
             ctx -> PlayerView(ctx).apply {

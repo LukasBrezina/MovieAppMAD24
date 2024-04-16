@@ -16,5 +16,5 @@ fun HomeScreen(navController: NavController, moviesViewModel: MoviesViewModel, r
             SimpleTopAppBar(navController = navController, text = "Lukas's Movie APP") },
         bottomBar = {
             SimpleBottomAppBar(navController, moviesViewModel, route) },
-    ) { paddingValues -> MovieList(movieList = moviesViewModel.movieList,moviesViewModel, paddingValues, navController) }
+    ) { paddingValues -> MovieList(movieList = moviesViewModel.movieList, moviesViewModel, paddingValues, navController) }
 }

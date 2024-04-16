@@ -57,7 +57,7 @@ fun MovieRow(movie: Movie, onMovieRowClick: (String) -> Unit, onFavClick: () -> 
                 model = movie.images[0],
                 contentDescription = null,
             )
-            IconButton(onClick = {onFavClick()}, modifier = Modifier.align(Alignment.TopEnd)) {
+            IconButton(onClick = { onFavClick() }, modifier = Modifier.align(Alignment.TopEnd)) {
                 Icon(
                     tint = Color.Red,
                     imageVector = if (movie.isFavourite) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
@@ -104,12 +104,10 @@ fun MovieList(movieList: List<Movie>, moviesViewModel: MoviesViewModel, paddingV
                 top = paddingValues.calculateTopPadding()
             )
     ) {
-        items(movieList) {
-                movie -> MovieRow(movie, onMovieRowClick = {
-            navController.navigate(Screen.DetailScreen.route+"/${movie.id}")
-        }, onFavClick = {
-            moviesViewModel.toggleFavourite(movie)
-        })
+        items(movieList) { movie ->
+            MovieRow(movie,
+            onMovieRowClick = { navController.navigate(Screen.DetailScreen.route+"/${movie.id}") },
+            onFavClick = { moviesViewModel.toggleFavourite(movie) })
         }
     }
 }
