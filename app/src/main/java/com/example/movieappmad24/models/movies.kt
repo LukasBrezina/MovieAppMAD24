@@ -3,6 +3,7 @@ package com.example.movieappmad24.models
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import com.example.movieappmad24.ViewModel.MoviesViewModel
 
 data class Movie(
     val id: String,
@@ -159,7 +160,7 @@ fun getMovies(): List<Movie> {
         )
 }
 
-fun getMovieById(movieId: String?, moviesViewModel: MoviesViewModel): Movie {
+/* fun getMovieById(movieId: String?, moviesViewModel: MoviesViewModel): Movie {
     moviesViewModel.movieList.forEach { movie ->
         if (movie.id == movieId) {
             return movie
@@ -167,3 +168,6 @@ fun getMovieById(movieId: String?, moviesViewModel: MoviesViewModel): Movie {
     }
     return moviesViewModel.movieList[0]
 }
+
+*/
+

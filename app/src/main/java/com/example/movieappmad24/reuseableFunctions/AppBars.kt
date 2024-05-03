@@ -14,7 +14,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavController
 import com.example.movieappmad24.models.Movie
-import com.example.movieappmad24.models.MoviesViewModel
+import com.example.movieappmad24.ViewModel.MoviesViewModel
 import com.example.movieappmad24.navigation.getNavigationItems
 
 @OptIn(ExperimentalMaterial3Api::class)
