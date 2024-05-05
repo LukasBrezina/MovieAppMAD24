@@ -38,7 +38,6 @@ import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.example.movieappmad24.dataClasses.MovieWithImages
 import com.example.movieappmad24.viewModels.MoviesViewModel
-import com.example.movieappmad24.dataClasses.getMovieImages
 import com.example.movieappmad24.navigation.Screen
 
 @SuppressLint("UnrememberedMutableState")
