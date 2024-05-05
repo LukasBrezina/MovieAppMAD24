@@ -14,19 +14,23 @@ import com.example.movieappmad24.screens.WatchlistScreen
 fun Navigation() {
     val navController = rememberNavController()
 
-    NavHost(navController = navController,
-        startDestination = Screen.HomeScreen.route) {
+    NavHost(
+        navController = navController,
+        startDestination = Screen.HomeScreen.route
+    ) {
 
         composable(route = Screen.HomeScreen.route) {
             HomeScreen(navController, Screen.HomeScreen.route)
         }
 
         composable(
-            route = Screen.DetailScreen.route+"/{movieId}",
-            arguments = listOf(navArgument(name="movieId") {type = NavType.StringType})
-        ) {
-            backStackEntry ->
-            DetailScreen(movieId = backStackEntry.arguments?.getString("movieId"), navController = navController)
+            route = Screen.DetailScreen.route + "/{movieId}",
+            arguments = listOf(navArgument(name = "movieId") { type = NavType.StringType })
+        ) { backStackEntry ->
+            DetailScreen(
+                movieId = backStackEntry.arguments?.getString("movieId"),
+                navController = navController
+            )
         }
 
         composable(route = Screen.WatchListScreen.route) {

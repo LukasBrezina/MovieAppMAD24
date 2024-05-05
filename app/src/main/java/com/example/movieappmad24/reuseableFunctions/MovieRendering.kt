@@ -1,7 +1,6 @@
 package com.example.movieappmad24.reuseableFunctions
 
 import android.annotation.SuppressLint
-import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -38,15 +37,19 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.example.movieappmad24.dataClasses.MovieWithImages
-import com.example.movieappmad24.ViewModel.MoviesViewModel
+import com.example.movieappmad24.viewModels.MoviesViewModel
 import com.example.movieappmad24.dataClasses.getMovieImages
 import com.example.movieappmad24.navigation.Screen
 
 @SuppressLint("UnrememberedMutableState")
 @Composable
-fun MovieRow(movieWithImages: MovieWithImages, onMovieRowClick: (String) -> Unit, onFavClick: () -> Unit) {
+fun MovieRow(
+    movieWithImages: MovieWithImages,
+    onMovieRowClick: (String) -> Unit,
+    onFavClick: () -> Unit
+) {
     Card(
-        shape = RoundedCornerShape(size=25.dp),
+        shape = RoundedCornerShape(size = 25.dp),
         modifier = Modifier
             .fillMaxWidth()
             .padding(5.dp)
@@ -56,7 +59,7 @@ fun MovieRow(movieWithImages: MovieWithImages, onMovieRowClick: (String) -> Unit
     ) {
         Box {
             AsyncImage(
-                model = getMovieImages(movieWithImages.movie)[0],
+                model = movieWithImages.images[0].url,
                 contentDescription = null,
             )
             IconButton(onClick = { onFavClick() }, modifier = Modifier.align(Alignment.TopEnd)) {
@@ -75,7 +78,11 @@ fun MovieRow(movieWithImages: MovieWithImages, onMovieRowClick: (String) -> Unit
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
 
-        Text(text = movieWithImages.movie.title, modifier = Modifier.padding(start=12.dp), fontSize = 22.sp)
+        Text(
+            text = movieWithImages.movie.title,
+            modifier = Modifier.padding(start = 12.dp),
+            fontSize = 22.sp
+        )
 
         IconButton(onClick = { arrow = !arrow }) {
             Icon(
@@ -86,19 +93,24 @@ fun MovieRow(movieWithImages: MovieWithImages, onMovieRowClick: (String) -> Unit
     }
     AnimatedVisibility(visible = arrow) {
         Column(modifier = Modifier.padding(all = 12.dp)) {
-            Text(text="Director: "+ movieWithImages.movie.director)
-            Text(text="Actors: " + movieWithImages.movie.actors)
-            Text(text="Genre: " + movieWithImages.movie.genre)
-            Text(text="Release Year: " + movieWithImages.movie.year)
-            Text(text="Rating: "+ movieWithImages.movie.rating)
-            Divider(color = Color.Black, thickness = 2.dp, modifier = Modifier.padding(all=12.dp))
-            Text(text="Plot: " + movieWithImages.movie.plot)
+            Text(text = "Director: " + movieWithImages.movie.director)
+            Text(text = "Actors: " + movieWithImages.movie.actors)
+            Text(text = "Genre: " + movieWithImages.movie.genre)
+            Text(text = "Release Year: " + movieWithImages.movie.year)
+            Text(text = "Rating: " + movieWithImages.movie.rating)
+            Divider(color = Color.Black, thickness = 2.dp, modifier = Modifier.padding(all = 12.dp))
+            Text(text = "Plot: " + movieWithImages.movie.plot)
         }
     }
 }
+
 @Composable
-fun MovieList(movieList: List<MovieWithImages>, moviesViewModel: MoviesViewModel, paddingValues: PaddingValues, navController: NavController) {
-    Log.i("Test", movieList.toString())
+fun MovieList(
+    movieList: List<MovieWithImages>,
+    moviesViewModel: MoviesViewModel,
+    paddingValues: PaddingValues,
+    navController: NavController
+) {
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
@@ -109,8 +121,8 @@ fun MovieList(movieList: List<MovieWithImages>, moviesViewModel: MoviesViewModel
     ) {
         items(movieList) { movieWithImages ->
             MovieRow(movieWithImages,
-            onMovieRowClick = { movieId -> navController.navigate(Screen.DetailScreen.route+"/${movieId}") },
-            onFavClick = { moviesViewModel.changeFavourite(movieWithImages) })
+                onMovieRowClick = { movieId -> navController.navigate(Screen.DetailScreen.route + "/${movieId}") },
+                onFavClick = { moviesViewModel.changeFavourite(movieWithImages) })
         }
     }
 }

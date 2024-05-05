@@ -1,4 +1,4 @@
-package com.example.movieappmad24.ViewModel
+package com.example.movieappmad24.viewModels
 
 
 import androidx.lifecycle.ViewModel
@@ -11,10 +11,10 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 
-class WatchListScreenViewModel (private val repository: MovieRepository): ViewModel(), MoviesViewModel {
-
+class WatchListScreenViewModel(private val repository: MovieRepository) : ViewModel(),
+    MoviesViewModel {
     private val _favouriteMovieList = MutableStateFlow(listOf<MovieWithImages>())
-    val favouriteMovieList : StateFlow<List<MovieWithImages>> = _favouriteMovieList.asStateFlow()
+    val favouriteMovieList: StateFlow<List<MovieWithImages>> = _favouriteMovieList.asStateFlow()
 
     override fun changeFavourite(movieWithImages: MovieWithImages) {
         movieWithImages.movie.isFavourite = !movieWithImages.movie.isFavourite
@@ -25,8 +25,8 @@ class WatchListScreenViewModel (private val repository: MovieRepository): ViewMo
 
     init {
         viewModelScope.launch {
-            repository.getFavouriteMovies().distinctUntilChanged().collect {
-                movies -> _favouriteMovieList.value = movies
+            repository.getFavouriteMovies().distinctUntilChanged().collect { movies ->
+                _favouriteMovieList.value = movies
             }
         }
     }

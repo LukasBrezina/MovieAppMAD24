@@ -1,6 +1,5 @@
 package com.example.movieappmad24.dataClasses
 
-import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 

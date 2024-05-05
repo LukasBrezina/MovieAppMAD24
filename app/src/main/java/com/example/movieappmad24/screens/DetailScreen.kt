@@ -1,6 +1,5 @@
 package com.example.movieappmad24.screens
 
-import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -24,31 +23,33 @@ import androidx.media3.ui.PlayerView
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.example.movieappmad24.Injection.InjectorUtils
-import com.example.movieappmad24.ViewModel.DetailScreenViewModel
+import com.example.movieappmad24.viewModels.DetailScreenViewModel
 import com.example.movieappmad24.reuseableFunctions.SimpleTopAppBar
 import com.example.movieappmad24.reuseableFunctions.MovieRow
 
 
 @Composable
 fun DetailScreen(movieId: String?, navController: NavController) {
-    if (movieId != null) {
-        Log.i("DetailScreen", movieId)
-    }
-    val detailScreenViewModel: DetailScreenViewModel = viewModel(factory = InjectorUtils.provideMoviesViewModelFactory(
-        LocalContext.current))
+    val detailScreenViewModel: DetailScreenViewModel = viewModel(
+        factory = InjectorUtils.provideMoviesViewModelFactory(
+            LocalContext.current
+        )
+    )
     val movieWithImages = detailScreenViewModel.getMovieById(movieId)?.collectAsState()?.value
-    Log.i("DetailScreen2", movieWithImages.toString())
-    if (movieWithImages!=null) {
+    if (movieWithImages != null) {
         Scaffold(
             topBar = {
                 SimpleTopAppBar(movie = movieWithImages.movie, navController = navController)
             }
         ) { padding ->
             Column(modifier = Modifier.padding(padding)) {
-                MovieRow(movieWithImages, onMovieRowClick = {}, onFavClick = { detailScreenViewModel.changeFavourite(movieWithImages) })
+                MovieRow(
+                    movieWithImages,
+                    onMovieRowClick = {},
+                    onFavClick = { detailScreenViewModel.changeFavourite(movieWithImages) })
                 ExoplayerTrailer(movieWithImages.movie.trailer)
                 LazyRow {
-                    items(movieWithImages.images) {image ->
+                    items(movieWithImages.images) { image ->
                         AsyncImage(model = image.url, contentDescription = null)
                     }
                 }
@@ -56,12 +57,19 @@ fun DetailScreen(movieId: String?, navController: NavController) {
         }
     }
 }
+
 // Tutorial: https://medium.com/@munbonecci/how-to-display-videos-using-exoplayer-on-android-with-jetpack-compose-1fb4d57778f4
 @Composable
 fun ExoplayerTrailer(uri: String) {
     val context = LocalContext.current
     val exoPlayer = ExoPlayer.Builder(context).build()
-    val videoURI = "android.resource://" + context.getPackageName() + "/${context.resources.getIdentifier(uri, "raw", context.packageName)}"
+    val videoURI = "android.resource://" + context.getPackageName() + "/${
+        context.resources.getIdentifier(
+            uri,
+            "raw",
+            context.packageName
+        )
+    }"
     val mediaSource = remember(videoURI) {
         MediaItem.fromUri(videoURI)
     }
@@ -75,8 +83,8 @@ fun ExoplayerTrailer(uri: String) {
         }
     }
     AndroidView(
-        factory = {
-            ctx -> PlayerView(ctx).apply {
+        factory = { ctx ->
+            PlayerView(ctx).apply {
                 player = exoPlayer
             }
         },

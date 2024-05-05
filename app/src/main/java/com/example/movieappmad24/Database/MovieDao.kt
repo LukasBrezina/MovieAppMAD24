@@ -4,7 +4,6 @@ import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
-import androidx.room.Transaction
 import androidx.room.Update
 import com.example.movieappmad24.dataClasses.Movie
 import com.example.movieappmad24.dataClasses.MovieImage
@@ -14,19 +13,20 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface MovieDao {
     @Insert
-    suspend fun insert (movie: Movie)
+    suspend fun insert(movie: Movie)
+
     @Insert
-    suspend fun insertMovieList (movies: List<Movie>)
+    suspend fun insertMovieList(movies: List<Movie>)
+
     @Insert
-    suspend fun insertMovieImages (images: List<MovieImage>)
+    suspend fun insertMovieImages(images: List<MovieImage>)
 
     @Delete
-    fun delete (movie: Movie)
+    fun delete(movie: Movie)
 
     @Query("SELECT * FROM movie WHERE id = :id")
     fun getMovieById(id: String?): Flow<MovieWithImages?>
 
-    @Transaction
     @Query("SELECT * FROM movie")
     fun getAllMovies(): Flow<List<MovieWithImages>>
 

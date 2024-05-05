@@ -21,16 +21,18 @@ import com.example.movieappmad24.navigation.getNavigationItems
 fun SimpleTopAppBar(movie: Movie? = null, navController: NavController, text: String? = null) {
     if (movie != null) {
         TopAppBar(
-            title = { Text(text= movie.title)},
+            title = { Text(text = movie.title) },
             navigationIcon = {
-                IconButton(onClick = { navController.popBackStack()}) {
-                    Icon(imageVector = Icons.Filled.ArrowBack,
-                        contentDescription = "ArrowBack" )
+                IconButton(onClick = { navController.popBackStack() }) {
+                    Icon(
+                        imageVector = Icons.Filled.ArrowBack,
+                        contentDescription = "ArrowBack"
+                    )
                 }
             }
         )
     } else {
-        TopAppBar(title= { Text(text= text!! ) } )
+        TopAppBar(title = { Text(text = text!!) })
     }
 }
 
@@ -42,10 +44,10 @@ fun SimpleBottomAppBar(navController: NavController, route: String) {
             NavigationBarItem(
                 selected = navItem.route == route,
                 onClick = {
-                            navController.navigate(navItem.route) {
-                                popUpTo(id = 0)
-                            }
-                          },
+                    navController.navigate(navItem.route) {
+                        popUpTo(id = 0)
+                    }
+                },
                 label = {
                     Text(text = navItem.title)
                 },

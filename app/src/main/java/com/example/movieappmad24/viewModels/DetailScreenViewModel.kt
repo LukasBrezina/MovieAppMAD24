@@ -1,4 +1,4 @@
-package com.example.movieappmad24.ViewModel
+package com.example.movieappmad24.viewModels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -9,14 +9,15 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-class DetailScreenViewModel (private val repository: MovieRepository): ViewModel(), MoviesViewModel {
+class DetailScreenViewModel(private val repository: MovieRepository) : ViewModel(),
+    MoviesViewModel {
 
-    private val _movie =  MutableStateFlow<MovieWithImages?>(null)
+    private val _movie = MutableStateFlow<MovieWithImages?>(null)
 
-    fun getMovieById (movieId: String?): StateFlow<MovieWithImages?>? {
+    fun getMovieById(movieId: String?): StateFlow<MovieWithImages?> {
         viewModelScope.launch {
-            repository.getMovieById(movieId).collect {
-                movie -> _movie.value = movie
+            repository.getMovieById(movieId).collect { movie ->
+                _movie.value = movie
             }
         }
         return _movie.asStateFlow()
