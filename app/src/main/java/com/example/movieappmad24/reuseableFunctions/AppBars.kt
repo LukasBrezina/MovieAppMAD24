@@ -13,8 +13,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavController
-import com.example.movieappmad24.models.Movie
-import com.example.movieappmad24.ViewModel.MoviesViewModel
+import com.example.movieappmad24.dataClasses.Movie
 import com.example.movieappmad24.navigation.getNavigationItems
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -37,9 +36,9 @@ fun SimpleTopAppBar(movie: Movie? = null, navController: NavController, text: St
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SimpleBottomAppBar(navController: NavController, moviesViewModel: MoviesViewModel, route: String) {
+fun SimpleBottomAppBar(navController: NavController, route: String) {
     NavigationBar {
-        getNavigationItems(moviesViewModel).forEach { navItem ->
+        getNavigationItems().forEach { navItem ->
             NavigationBarItem(
                 selected = navItem.route == route,
                 onClick = {

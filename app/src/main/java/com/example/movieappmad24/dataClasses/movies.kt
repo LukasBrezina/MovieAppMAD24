@@ -1,27 +1,48 @@
-package com.example.movieappmad24.models
+package com.example.movieappmad24.dataClasses
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
-import com.example.movieappmad24.ViewModel.MoviesViewModel
+import androidx.room.*
 
+@Entity
 data class Movie(
-    val id: String,
+    @PrimaryKey val id: String,
     val title: String,
     val year: String,
     val genre: String,
     val director: String,
     val actors: String,
     val plot: String,
-    val images: List<String>,
+    @Ignore val images: List<String> = emptyList(),
     val trailer: String,
     val rating: String,
-    val initialFavourite: Boolean = false,
-) {
-    var isFavourite by mutableStateOf(initialFavourite)
+    var isFavourite: Boolean = false
+) { constructor(
+        id: String,
+        title: String,
+        year: String,
+        genre: String,
+        director: String,
+        actors: String,
+        plot: String,
+        trailer: String,
+        rating: String,
+        isFavourite: Boolean
+        ) : this(
+            id = id,
+            title = title,
+            year = year,
+            genre = genre,
+            director = director,
+            actors = actors,
+            plot = plot,
+            images = mutableListOf<String>(),
+            trailer = trailer,
+            rating = rating,
+            isFavourite = isFavourite
+            )
 }
 
-fun getMovies(): List<Movie> {
+
+ fun getMovies(): List<Movie> {
     return listOf(
         Movie(id = "tt0499549",
             title = "Avatar",
@@ -170,4 +191,12 @@ fun getMovies(): List<Movie> {
 }
 
 */
+fun getMovieImages(movie: Movie): List<String> {
+    for (_movie in getMovies()) {
+        if (_movie.id == movie.id) {
+            return _movie.images
+        }
+    }
+    return movie.images
+}
 

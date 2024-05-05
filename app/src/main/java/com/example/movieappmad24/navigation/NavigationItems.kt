@@ -19,13 +19,13 @@ data class BottomNavigationItem(
     val route: String
 )
 
-fun getNavigationItems(moviesViewModel: MoviesViewModel): List<BottomNavigationItem> {
+fun getNavigationItems(): List<BottomNavigationItem> {
     return listOf(
         BottomNavigationItem(
             title = "Home",
             selectedIcon = Icons.Filled.Home,
             unselectedIcon = Icons.Outlined.Home,
-            count = moviesViewModel.movieList.size,
+            //count = moviesViewModel.movieList.size,
             route = Screen.HomeScreen.route
 
         ),
@@ -33,7 +33,7 @@ fun getNavigationItems(moviesViewModel: MoviesViewModel): List<BottomNavigationI
             title = "Watchlist",
             selectedIcon = Icons.Filled.Star,
             unselectedIcon = Icons.Outlined.Star,
-            count = moviesViewModel.favouriteMovieList.size,
+            //count = moviesViewModel.favouriteMovieList.size,
             route = Screen.WatchListScreen.route
         ),
     )

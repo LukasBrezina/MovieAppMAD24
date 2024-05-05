@@ -4,26 +4,38 @@ import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
+import androidx.room.Transaction
 import androidx.room.Update
+import com.example.movieappmad24.dataClasses.Movie
+import com.example.movieappmad24.dataClasses.MovieImage
+import com.example.movieappmad24.dataClasses.MovieWithImages
 import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface MovieDao {
     @Insert
-    fun insert (movie: Movie)
+    suspend fun insert (movie: Movie)
+    @Insert
+    suspend fun insertMovieList (movies: List<Movie>)
+    @Insert
+    suspend fun insertMovieImages (images: List<MovieImage>)
 
     @Delete
     fun delete (movie: Movie)
 
-    @Query("SELECT * FROM Movie WHERE id = :id")
-    fun getMovieById(id: String): Flow<Movie?>
+    @Query("SELECT * FROM movie WHERE id = :id")
+    fun getMovieById(id: String?): Flow<MovieWithImages?>
 
-    @Query("SELECT * FROM Movie")
-    fun getAllMovies(): Flow<List<Movie>>
+    @Transaction
+    @Query("SELECT * FROM movie")
+    fun getAllMovies(): Flow<List<MovieWithImages>>
 
     @Update
-    fun updateMovie(movie: Movie)
+    suspend fun updateMovie(movie: Movie)
 
-    @Query("SELECT * FROM Movie WHERE isFavourite=True")
-    fun getFavouriteMovies(): Flow<List<Movie>>
+    @Query("SELECT * FROM movie WHERE isFavourite=1")
+    fun getFavouriteMovies(): Flow<List<MovieWithImages>>
+
+    @Query("DELETE FROM movie")
+    suspend fun deleteAllMovies()
 }

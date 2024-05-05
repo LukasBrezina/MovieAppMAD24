@@ -1,5 +1,6 @@
 package com.example.movieappmad24.screens
 
+import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -10,35 +11,46 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.media3.common.MediaItem
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.ui.PlayerView
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
-import com.example.movieappmad24.models.Movie
-import com.example.movieappmad24.ViewModel.MoviesViewModel
+import com.example.movieappmad24.Injection.InjectorUtils
+import com.example.movieappmad24.ViewModel.DetailScreenViewModel
 import com.example.movieappmad24.reuseableFunctions.SimpleTopAppBar
 import com.example.movieappmad24.reuseableFunctions.MovieRow
 
 
 @Composable
-fun DetailScreen(movie: Movie, moviesViewModel: MoviesViewModel, navController: NavController) {
-    Scaffold(
-        topBar = {
-            SimpleTopAppBar(movie = movie, navController = navController)
-        }
-    ) { padding ->
-        Column(modifier = Modifier.padding(padding)) {
-            MovieRow(movie, onMovieRowClick = {}, onFavClick = { moviesViewModel.toggleFavourite(movie) })
-            ExoplayerTrailer(movie.trailer)
-            LazyRow {
-                items(movie.images) {image ->
-                    AsyncImage(model = image, contentDescription = null)
+fun DetailScreen(movieId: String?, navController: NavController) {
+    if (movieId != null) {
+        Log.i("DetailScreen", movieId)
+    }
+    val detailScreenViewModel: DetailScreenViewModel = viewModel(factory = InjectorUtils.provideMoviesViewModelFactory(
+        LocalContext.current))
+    val movieWithImages = detailScreenViewModel.getMovieById(movieId)?.collectAsState()?.value
+    Log.i("DetailScreen2", movieWithImages.toString())
+    if (movieWithImages!=null) {
+        Scaffold(
+            topBar = {
+                SimpleTopAppBar(movie = movieWithImages.movie, navController = navController)
+            }
+        ) { padding ->
+            Column(modifier = Modifier.padding(padding)) {
+                MovieRow(movieWithImages, onMovieRowClick = {}, onFavClick = { detailScreenViewModel.changeFavourite(movieWithImages) })
+                ExoplayerTrailer(movieWithImages.movie.trailer)
+                LazyRow {
+                    items(movieWithImages.images) {image ->
+                        AsyncImage(model = image.url, contentDescription = null)
+                    }
                 }
             }
         }

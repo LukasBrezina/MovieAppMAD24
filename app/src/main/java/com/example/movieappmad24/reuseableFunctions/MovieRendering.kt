@@ -1,6 +1,7 @@
 package com.example.movieappmad24.reuseableFunctions
 
 import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -12,7 +13,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
@@ -20,6 +20,7 @@ import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material3.Card
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -36,31 +37,32 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
-import com.example.movieappmad24.models.Movie
+import com.example.movieappmad24.dataClasses.MovieWithImages
 import com.example.movieappmad24.ViewModel.MoviesViewModel
+import com.example.movieappmad24.dataClasses.getMovieImages
 import com.example.movieappmad24.navigation.Screen
 
 @SuppressLint("UnrememberedMutableState")
 @Composable
-fun MovieRow(movie: Movie, onMovieRowClick: (String) -> Unit, onFavClick: () -> Unit) {
+fun MovieRow(movieWithImages: MovieWithImages, onMovieRowClick: (String) -> Unit, onFavClick: () -> Unit) {
     Card(
         shape = RoundedCornerShape(size=25.dp),
         modifier = Modifier
             .fillMaxWidth()
             .padding(5.dp)
             .clickable {
-                onMovieRowClick(movie.id)
+                onMovieRowClick(movieWithImages.movie.id)
             }
     ) {
         Box {
             AsyncImage(
-                model = movie.images[0],
+                model = getMovieImages(movieWithImages.movie)[0],
                 contentDescription = null,
             )
             IconButton(onClick = { onFavClick() }, modifier = Modifier.align(Alignment.TopEnd)) {
                 Icon(
                     tint = Color.Red,
-                    imageVector = if (movie.isFavourite) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
+                    imageVector = if (movieWithImages.movie.isFavourite) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
                     contentDescription = "Heart",
                 )
             }
@@ -73,7 +75,7 @@ fun MovieRow(movie: Movie, onMovieRowClick: (String) -> Unit, onFavClick: () -> 
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
 
-        Text(text = movie.title, modifier = Modifier.padding(start=12.dp), fontSize = 22.sp)
+        Text(text = movieWithImages.movie.title, modifier = Modifier.padding(start=12.dp), fontSize = 22.sp)
 
         IconButton(onClick = { arrow = !arrow }) {
             Icon(
@@ -84,18 +86,19 @@ fun MovieRow(movie: Movie, onMovieRowClick: (String) -> Unit, onFavClick: () -> 
     }
     AnimatedVisibility(visible = arrow) {
         Column(modifier = Modifier.padding(all = 12.dp)) {
-            Text(text="Director: "+ movie.director)
-            Text(text="Actors: " + movie.actors)
-            Text(text="Genre: " + movie.genre)
-            Text(text="Release Year: " + movie.year)
-            Text(text="Rating: "+ movie.rating)
+            Text(text="Director: "+ movieWithImages.movie.director)
+            Text(text="Actors: " + movieWithImages.movie.actors)
+            Text(text="Genre: " + movieWithImages.movie.genre)
+            Text(text="Release Year: " + movieWithImages.movie.year)
+            Text(text="Rating: "+ movieWithImages.movie.rating)
             Divider(color = Color.Black, thickness = 2.dp, modifier = Modifier.padding(all=12.dp))
-            Text(text="Plot: " + movie.plot)
+            Text(text="Plot: " + movieWithImages.movie.plot)
         }
     }
 }
 @Composable
-fun MovieList(movieList: List<Movie>, moviesViewModel: MoviesViewModel, paddingValues: PaddingValues, navController: NavController) {
+fun MovieList(movieList: List<MovieWithImages>, moviesViewModel: MoviesViewModel, paddingValues: PaddingValues, navController: NavController) {
+    Log.i("Test", movieList.toString())
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
@@ -104,10 +107,10 @@ fun MovieList(movieList: List<Movie>, moviesViewModel: MoviesViewModel, paddingV
                 top = paddingValues.calculateTopPadding()
             )
     ) {
-        items(movieList) { movie ->
-            MovieRow(movie,
-            onMovieRowClick = { navController.navigate(Screen.DetailScreen.route+"/${movie.id}") },
-            onFavClick = { moviesViewModel.toggleFavourite(movie) })
+        items(movieList) { movieWithImages ->
+            MovieRow(movieWithImages,
+            onMovieRowClick = { movieId -> navController.navigate(Screen.DetailScreen.route+"/${movieId}") },
+            onFavClick = { moviesViewModel.changeFavourite(movieWithImages) })
         }
     }
 }
